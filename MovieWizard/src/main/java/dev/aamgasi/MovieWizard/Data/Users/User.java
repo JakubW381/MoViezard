@@ -29,5 +29,4 @@ public class User {
     private List<Movie> favorites;
 
     private List<Movie> toWatch;
-
 }
