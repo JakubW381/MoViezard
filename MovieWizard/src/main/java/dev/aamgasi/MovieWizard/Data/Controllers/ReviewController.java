@@ -25,7 +25,7 @@ public class ReviewController {
     @Autowired
     private UserRepo userRepo;
 
-    @PostMapping("/{id}/add-review")
+    @PostMapping("/{movieId}/add-review")
     public ResponseEntity<Review> createReview(@RequestBody Map<String, String> payload, @PathVariable String movieId){
 
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

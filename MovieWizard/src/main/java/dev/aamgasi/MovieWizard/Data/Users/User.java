@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import java.util.List;
 
@@ -19,10 +20,14 @@ import java.util.List;
 public class User {
     @Id
     private ObjectId id;
-
+    @Field("username")
     private String username;
-
+    @Field("email")
+    private String email;
+    @Field("password")
     private String password;
+
+    private String oauth2Id;
 
     private List<Review> reviews;
 

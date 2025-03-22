@@ -31,6 +31,9 @@ public class MovieService {
     public Optional<List<Movie>> getGenre(String genre) {
         return repo.findByGenre(genre);
     }
+
+    public Optional<List<Movie>> getTitle(String title) {return repo.findByTitle(title);}
+
     //Za pomocą agregacji i mongoTemplate
     public List<Movie> getRandom10FromGenre(String genre) {
         Aggregation aggregation = Aggregation.newAggregation(

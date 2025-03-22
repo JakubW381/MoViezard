@@ -13,7 +13,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/api/movies")
+@RequestMapping("/api/movie")
 public class MovieController {
 
     @Autowired
@@ -31,6 +31,13 @@ public class MovieController {
     public ResponseEntity<Optional<List<Movie>>> getGenre(@RequestParam String genre){
         return new ResponseEntity<>(movieService.getGenre(genre),HttpStatus.OK);
     }
+    @GetMapping("/search")
+    public ResponseEntity<Optional<List<Movie>>> getTitle(@RequestParam String title){
+        return new ResponseEntity<>(movieService.getTitle(title),HttpStatus.OK);
+    }
+
+
+
     @GetMapping("/random/10")
     public ResponseEntity<List<Movie>> get10FromGenre(@RequestParam String genre) {
         return new ResponseEntity<>(movieService.getRandom10FromGenre(genre), HttpStatus.OK);

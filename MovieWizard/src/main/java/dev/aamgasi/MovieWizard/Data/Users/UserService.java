@@ -1,10 +1,6 @@
 package dev.aamgasi.MovieWizard.Data.Users;
 
-import dev.aamgasi.MovieWizard.Data.Reviews.Review;
-import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -20,10 +16,16 @@ public class UserService {
     private PasswordEncoder encoder;
 
     public User registerUser(User user){
-        if (userRepo.findByUsername(user.getUsername()).isPresent()) {
-            throw new RuntimeException("Username already exists!");
+        if((user.getEmail().isEmpty() || user.getEmail() == null) || (user.getPassword().isEmpty() || user.getPassword() == null) || (user.getUsername().isEmpty() || user.getUsername() == null)){
+            throw new RuntimeException("Missing Credentials");
         }
+        if (userRepo.findByEmail(user.getEmail()).isPresent()) {
+            throw new RuntimeException("User already exists!");
+        }
+        user.setUsername(user.getUsername());
+        user.setEmail(user.getEmail());
         user.setPassword(encoder.encode(user.getPassword()));
+        user.setOauth2Id("");
         user.setFavorites(Collections.emptyList());
         user.setReviews(Collections.emptyList());
         user.setToWatch(Collections.emptyList());

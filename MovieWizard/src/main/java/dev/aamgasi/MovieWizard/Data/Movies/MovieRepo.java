@@ -14,4 +14,6 @@ public interface MovieRepo extends MongoRepository<Movie, ObjectId> {
     @Query("{ 'genres' : { '$in' : [?0] } }")
     Optional<List<Movie>> findByGenre(String genre);
 
+    @Query("{ 'title' : { $regex: ?0, $options: 'i' } }")
+    Optional<List<Movie>> findByTitle(String title);
 }
