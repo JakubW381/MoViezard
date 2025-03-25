@@ -10,9 +10,7 @@ import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -28,13 +26,15 @@ public class SecurityConfig {
     @Autowired
     private MyOAuth2UserService myOAuth2UserService;
 
+
     @Bean
     SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
+                .cors(withDefaults())
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests( auth ->
                         {
-                            auth.requestMatchers("/","/api/**","/api/auth/register").permitAll();
+                            auth.requestMatchers("/","/api/**","/api/auth/**").permitAll();
                             auth.requestMatchers("/api/movies/*/add-review").authenticated();
                             auth.anyRequest().authenticated();
                         }
@@ -44,9 +44,14 @@ public class SecurityConfig {
                                 .userService(myOAuth2UserService)
                         )
                 )
-                .authenticationProvider(authenticationProvider())
                 .formLogin(withDefaults())
-                .logout(logout -> logout.logoutUrl("/logout").permitAll())
+                .authenticationProvider(authenticationProvider())
+                .logout(logout -> logout.logoutUrl("/logout").permitAll().deleteCookies("JSESSIONID", "token"))
+                .sessionManagement(session -> session
+                        .maximumSessions(1)
+                        .expiredUrl("/login?expired=true")
+
+                )
                 .build();
     }
 

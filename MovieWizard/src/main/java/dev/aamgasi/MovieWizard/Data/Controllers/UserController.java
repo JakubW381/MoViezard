@@ -2,14 +2,14 @@ package dev.aamgasi.MovieWizard.Data.Controllers;
 
 import dev.aamgasi.MovieWizard.Data.Users.User;
 import dev.aamgasi.MovieWizard.Data.Users.UserService;
-import org.apache.coyote.Response;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -18,11 +18,12 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-
-    @PostMapping("/login")
-    public ResponseEntity<String> login(){
-        /*TODO--Logowanie--*/
-        return new ResponseEntity<String>(" ",HttpStatus.OK);
+    @GetMapping("/check-session")
+    public ResponseEntity<Boolean> checkSession(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        return session != null && session.getAttribute("user") != null
+                ? ResponseEntity.ok(true)
+                : ResponseEntity.ok(false);
     }
 
     @PostMapping("/register")
