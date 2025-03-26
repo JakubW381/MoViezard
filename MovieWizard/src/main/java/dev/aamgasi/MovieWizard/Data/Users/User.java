@@ -19,7 +19,7 @@ import java.util.List;
 
 public class User {
     @Id
-    private ObjectId id;
+    private String id = ObjectId.get().toHexString();
     @Field("username")
     private String username;
     @Field("email")

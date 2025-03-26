@@ -13,14 +13,14 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 public class Review {
     @Id
-    private ObjectId id;
+    private String id = ObjectId.get().toHexString();
 
-    private ObjectId userId;
-    private ObjectId movieId;
+    private String userId = ObjectId.get().toHexString();
+    private String movieId =ObjectId.get().toHexString();
 
     private String body;
 
-    public Review(String body, ObjectId userId, ObjectId movieId) {
+    public Review(String body, String userId, String movieId) {
         this.body = body;
         this.movieId = movieId;
         this.userId = userId;

@@ -31,7 +31,7 @@ public class ReviewController {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
 
-        ObjectId userId = userRepo.findByUsername(username)
+        String userId = userRepo.findByUsername(username)
                 .map(User::getId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
 

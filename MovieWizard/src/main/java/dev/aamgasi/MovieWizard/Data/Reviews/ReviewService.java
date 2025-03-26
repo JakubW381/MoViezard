@@ -19,8 +19,8 @@ public class ReviewService {
     private MongoTemplate template;
 
     public Review createReview(String body, String movieId, String userId) {
-        ObjectId movieObjectId = new ObjectId(movieId);
-        ObjectId userObjectId = new ObjectId(userId);
+        String movieObjectId = new ObjectId(movieId).toHexString();
+        String userObjectId = new ObjectId(userId).toHexString();
 
         Review review = new Review(body,movieObjectId,userObjectId);
         repo.save(review);
